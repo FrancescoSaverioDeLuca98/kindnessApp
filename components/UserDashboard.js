@@ -5,6 +5,7 @@ import { doc, setDoc, deleteField } from 'firebase/firestore'
 import { db } from '../firebase'
 import useFetchTodos from '../hooks/fetchTodos'
 
+
 export default function UserDashboard() {
     const initialState = {
         name: "",
@@ -14,12 +15,12 @@ export default function UserDashboard() {
 
     }
     const initialVirtuState = {
-        fede: "",
-        speranza: "",
-        carita: "",
-        giustizia: "",
-        sapienza: "",
-        temperanza: "",
+        fede: 0,
+        speranza: 0,
+        carita: 0,
+        giustizia: 0,
+        sapienza: 0,
+        temperanza: 0,
     }
     const { userInfo, currentUser } = useAuth()
     const [edit, setEdit] = useState(null)
@@ -49,6 +50,8 @@ export default function UserDashboard() {
 
     }
 
+    /*
+
     function setVirtuForm(e) {
         switch (e.id) {
             case "fede":
@@ -72,6 +75,57 @@ export default function UserDashboard() {
         }
 
     }
+    */
+
+    function Addone(e) {
+        console.log(e.id)
+        switch (e.id) {
+            case "addF":
+                setVirtu({ ...virtu, fede: virtu.fede < 10 ? virtu.fede+1 : virtu.fede })
+                return;
+            case "addS":
+                setVirtu({ ...virtu, speranza: virtu.speranza < 10 ? virtu.speranza+1 : virtu.speranza })
+                return;
+            case "addC":
+                setVirtu({ ...virtu, carita: virtu.carita < 10 ? virtu.carita+1 : virtu.carita })
+                return;
+            case "addG":
+                setVirtu({ ...virtu, giustizia: virtu.giustizia < 10 ? virtu.giustizia+1 : virtu.giustizia })
+                return;
+            case "addSA":
+                setVirtu({ ...virtu, sapienza: virtu.sapienza  < 10 ? virtu.sapienza+1 : virtu.sapienza})
+                return;
+            case "addT":
+                setVirtu({ ...virtu, temperanza: virtu.temperanza < 10 ? virtu.temperanza+1 : virtu.temperanza})
+                return;
+        }
+
+    }
+
+    function SubtractOne(e) {
+        switch (e.id) {
+            case "subF":
+                setVirtu({ ...virtu, fede: virtu.fede!==0 ? virtu.fede-1 : 0 })
+                return;
+            case "subS":
+                setVirtu({ ...virtu, speranza: virtu.speranza!==0 ? virtu.speranza - 1 : 0 })
+                return;
+            case "subC":
+                setVirtu({ ...virtu, carita: virtu.carita!==0 ? virtu.carita - 1 : 0  })
+                return;
+            case "subG":
+                setVirtu({ ...virtu, giustizia: virtu.giustizia!==0 ? virtu.giustizia - 1 : 0  })
+                return;
+            case "subSA":
+                setVirtu({ ...virtu, sapienza: virtu.sapienza!==0 ? virtu.sapienza - 1 : 0  })
+                return;
+            case "subT":
+                setVirtu({ ...virtu, temperanza: virtu.temperanza!==0 ? virtu.temperanza - 1 : 0  })
+                return;
+        }
+
+
+    }
 
 
 
@@ -89,11 +143,10 @@ export default function UserDashboard() {
         //const newKey = todos ? (Object.keys(todos).length === 0 ? 1 : Math.max(...Object.keys(todos))) + 1 : 1
         console.log(virtu)
         let newperson = { ...todo }
-        console.log(JSON.stringify(newperson))
-        if(todo && todo.length!==0){
+        if (todo && todo.length !== 0) {
             setPeople([...people, newperson])
         }
-        console.log(typeof (people))
+        ClearForm()
         /*
         setTodos({ ...todos, [newKey]: todo })
         const userRef = doc(db, 'users', currentUser.uid)
@@ -157,22 +210,22 @@ export default function UserDashboard() {
                     <div>
                         <label className="text-red-600 row-start-1" >Name:</label>
                         <br></br>
-                        <input id="name" type='text' placeholder="Enter todo" value={todo.name} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900' />
+                        <input id="name" type='text' placeholder="Enter todo" value={todo.name} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900 rounded' />
                     </div>
                     <div>
                         <label className="text-red-600 row-start-1" >Address:</label>
                         <br></br>
-                        <input id="address" type='text' placeholder="Enter todo" value={todo.address} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900' />
+                        <input id="address" type='text' placeholder="Enter todo" value={todo.address} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900 rounded' />
                     </div>
                     <div>
                         <label className="text-red-600 row-start-1" >Surname:</label>
                         <br></br>
-                        <input id="surname" type='text' placeholder="Enter todo" value={todo.surname} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900' />
+                        <input id="surname" type='text' placeholder="Enter todo" value={todo.surname} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900 rounded' />
                     </div>
                     <div>
                         <label className="text-red-600 row-start-1" >palace:</label>
                         <br></br>
-                        <input id="palace" type='text' placeholder="Enter todo" value={todo.palace} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900' />
+                        <input id="palace" type='text' placeholder="Enter todo" value={todo.palace} onChange={(e) => SetForm(e.target)} className='outline-none p-5 text-base  text-slate-900 rounded' />
                     </div>
                 </div>
             </div>
@@ -181,28 +234,89 @@ export default function UserDashboard() {
                 </div>
                 <br></br>
                 <div className="text-white-600 py-5" >Fede:</div>
-                <div>
-                    <input id="fede" type='text' placeholder="Enter number from 1 to 10" value={virtu.fede} onChange={(e) => setVirtuForm(e.target)} className='w-full outline-none p-5 text-base  text-slate-900' />
+                <div className='input-dash'>
+                    <div className='float-left w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="subF" onClick={(e) => SubtractOne(e.target)}>
+                            -
+                        </button>
+                    </div>
+                    <input id="fede" type='text' placeholder="Enter number from 1 to 10" value={virtu.fede} readOnly={true} /*onChange={(e) => setVirtuForm(e.target)}*/ className='rounded-lg w-50 outline-none p-5 text-base  text-slate-900' />
+                    <div className='float-right w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="addF" onClick={(e) => Addone(e.target)}>
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div className="text-white-600 py-5" >Speranza:</div>
-                <div>
-                    <input id="speranza" type='text' placeholder="Enter number from 1 to 10" value={virtu.speranza} onChange={(e) => setVirtuForm(e.target)} className='w-full outline-none p-5 text-base  text-slate-900' />
+                <div className='input-dash'>
+                    <div className='float-left w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="subS" onClick={(e) => SubtractOne(e.target)}>
+                            -
+                        </button>
+                    </div>
+                    <input id="speranza" type='text' placeholder="Enter number from 1 to 10" value={virtu.speranza} readOnly={true} /*onChange={(e) => setVirtuForm(e.target)}*/ className='rounded-lg w-50 outline-none p-5 text-base  text-slate-900' />
+                    <div className='float-right w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="addS" onClick={(e) => Addone(e.target)}>
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div className="text-white-600 py-5" >Carità:</div>
-                <div>
-                    <input id="carita" type='text' placeholder="Enter number from 1 to 10" value={virtu.carita} onChange={(e) => setVirtuForm(e.target)} className='w-full outline-none p-5 text-base  text-slate-900' />
+                <div className='input-dash'>
+                    <div className='float-left w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="subC" onClick={(e) => SubtractOne(e.target)}>
+                            -
+                        </button>
+                    </div>
+                    <input id="carita" type='text' placeholder="Enter number from 1 to 10" value={virtu.carita} readOnly={true} /*onChange={(e) => setVirtuForm(e.target)}*/ className='rounded-lg w-50 outline-none p-5 text-base  text-slate-900' />
+                    <div className='float-right w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="addC" onClick={(e) => Addone(e.target)}>
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div className="text-white-600 py-5" >Sapienza:</div>
-                <div>
-                    <input id="sapienza" type='text' placeholder="Enter number from 1 to 10" value={virtu.sapienza} onChange={(e) => setVirtuForm(e.target)} className='w-full outline-none p-5 text-base  text-slate-900' />
+                <div className='input-dash'>
+                    <div className='float-left w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="subSA" onClick={(e) => SubtractOne(e.target)}>
+                            -
+                        </button>
+                    </div>
+                    <input id="sapienza" type='text' placeholder="Enter number from 1 to 10" value={virtu.sapienza} readOnly={true} /*onChange={(e) => setVirtuForm(e.target)}*/ className='rounded-lg w-50 outline-none p-5 text-base  text-slate-900' />
+                    <div className='float-right w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="addSA" onClick={(e) => Addone(e.target)}>
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div className="text-white-600 py-5" >Giustizia:</div>
-                <div>
-                    <input id="giustizia" type='text' placeholder="Enter number from 1 to 10" value={virtu.giustizia} onChange={(e) => setVirtuForm(e.target)} className='w-full outline-none p-5 text-base  text-slate-900' />
+                <div className='input-dash'>
+                    <div className='float-left w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="subG" onClick={(e) => SubtractOne(e.target)}>
+                            -
+                        </button>
+                    </div>
+                    <input id="giustizia" type='text' placeholder="Enter number from 1 to 10" value={virtu.giustizia} readOnly={true} /*onChange={(e) => setVirtuForm(e.target)}*/ className='rounded-lg w-50 outline-none p-5 text-base  text-slate-900' />
+                    <div className='float-right w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="addG" onClick={(e) => Addone(e.target)}>
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div className="text-white-600 py-5" >Temperanza:</div>
-                <div>
-                    <input id="temperanza" type='text' placeholder="Enter number from 1 to 10" value={virtu.temperanza} onChange={(e) => setVirtuForm(e.target)} className='w-full outline-none p-5 text-base  text-slate-900' />
+                <div className='input-dash'>
+                    <div className='float-left w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="subT" onClick={(e) => SubtractOne(e.target)}>
+                            -
+                        </button>
+                    </div>
+                    <input id="temperanza" type='text' placeholder="Enter number from 1 to 10" value={virtu.temperanza} readOnly={true} /*onChange={(e) => setVirtuForm(e.target)}*/ className='rounded-lg w-50 outline-none p-5 text-base  text-slate-900' />
+                    <div className='float-right w-10 py-4'>
+                        <button className='border-solid border-2 rounded-full pl-2 pr-2 cursor-pointer' id="addT" onClick={(e) => Addone(e.target)}>
+                            +
+                        </button>
+                    </div>
+
                 </div>
             </div>
             <div className="grid grid-rows-1 grid-cols-2 gap-3">
@@ -219,7 +333,7 @@ export default function UserDashboard() {
             {(
                 <>
                     {
-                        people && 
+                        people &&
                         Object.keys(people).map((i) => {
                             peopleToString = Object.values(people[i]).join()
                             return (

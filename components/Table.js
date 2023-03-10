@@ -1,6 +1,21 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
+
+/*export default function DataTable({rows , columns , pageSize , rowsPerPageOptions}) {
+  return (
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        style={{backgroundColor : "white"}}
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+      />
+    </div>
+  );
+}*/
+
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'firstName', headerName: 'First name', width: 130 },
@@ -22,6 +37,8 @@ const columns = [
   },
 ];
 
+
+
 const rows = [
   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
@@ -33,6 +50,7 @@ const rows = [
   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
+
 
 export default function DataTable() {
   return (
@@ -47,3 +65,7 @@ export default function DataTable() {
     </div>
   );
 }
+
+
+
+
