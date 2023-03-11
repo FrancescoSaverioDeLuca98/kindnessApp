@@ -4,10 +4,14 @@ import Login from '../components/Login'
 import UserDashboard from '../components/UserDashboard'
 //import BasicTable from '../components/Table'
 import { useAuth } from '../context/AuthContext'
+import useFetchPeople from '../hooks/fetchPeople'
 
 export default function Home() {
-  const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
+  const { people, setPeople, loading, error } = useFetchPeople(); 
 
+  console.log(people);
+  console.log(error);
   return (
     < >
       <Head>

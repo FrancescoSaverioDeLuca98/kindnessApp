@@ -3,14 +3,12 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD_GVzyEOY_7GJ9nNeSUdf-Ahrir1z2G60",
-  authDomain: "todo-app-521c4.firebaseapp.com",
-  databaseURL: "https://todo-app-521c4-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "todo-app-521c4",
-  storageBucket: "todo-app-521c4.appspot.com",
-  messagingSenderId: "341055682001",
-  appId: "1:341055682001:web:1a96274c3e7325986ddcf0",
-  measurementId: "G-W0FJ3N5GXH"
+  apiKey: "AIzaSyB0mW88DBnnSxI4Yb2V-HOslzrfTbgvDRM",
+  authDomain: "kindness-app-28807.firebaseapp.com",
+  projectId: "kindness-app-28807",
+  storageBucket: "kindness-app-28807.appspot.com",
+  messagingSenderId: "983885579648",
+  appId: "1:983885579648:web:9a3a62143e51e796c9ed65"
 }
 
 const app = initializeApp(firebaseConfig)
