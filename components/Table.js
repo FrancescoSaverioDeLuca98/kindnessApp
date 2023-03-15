@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-
+import Link from "@material-ui/core/Link";
+import { useRouter } from 'next/router'
 
 /*export default function DataTable({rows , columns , pageSize , rowsPerPageOptions}) {
   return (
@@ -15,6 +16,9 @@ import { DataGrid } from '@mui/x-data-grid';
     </div>
   );
 }*/
+
+
+
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -35,6 +39,16 @@ const columns = [
     valueGetter: (params) =>
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
+  {
+    field: 'details',
+    headerName: 'Details',
+    description: 'This column has detail of user.',
+    sortable: false,
+    width: 160,
+    renderCell: () => (
+      <Link className='cursor-pointer'>Dettagli</Link>
+    )
+  },
 ];
 
 
@@ -53,14 +67,31 @@ const rows = [
 
 
 export default function DataTable() {
+
+
+  const router = useRouter()
+
+  function handleEvent(e) {
+    if (e.field && e.row) {
+      let clickedFiled = e.field
+      let id = e.row.id
+      if (clickedFiled === "details") {
+        let path = "/profile/" + id
+        router.push(path)
+      }
+    }
+  }
+
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
-        style={{backgroundColor : "white"}}
+        style={{ backgroundColor: "white" }}
         rows={rows}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
+        onCellClick={handleEvent}
+
       />
     </div>
   );
