@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "buildestart" : "npm run build && npm run start"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
+    "concurrently": "^7.6.0",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
     "npm-watch": "^0.11.0",
