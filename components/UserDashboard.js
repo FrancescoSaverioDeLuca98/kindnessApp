@@ -4,9 +4,16 @@ import TodoCard from './TodoCard'
 import { doc, setDoc, deleteField } from 'firebase/firestore'
 import { db } from '../firebase'
 import useFetchTodos from '../hooks/fetchTodos'
+import { useDispatch, useSelector } from "react-redux";
+import { iconAction } from "../redux/store";
+
 
 
 export default function UserDashboard() {
+
+    const {icon} = useSelector((state) => (state.icon))
+    const dispatch = useDispatch();
+
     const initialState = {
         name: "",
         surname: "",
@@ -162,6 +169,11 @@ export default function UserDashboard() {
     function ClearForm() {
         setTodo(initialState)
         setVirtu(initialVirtuState)
+        if(icon === "moon"){
+            dispatch(iconAction.iconSun())
+            return
+        }
+        dispatch(iconAction.iconMoon())
     }
 
     async function handleEditTodo() {
@@ -327,6 +339,7 @@ export default function UserDashboard() {
                     <button onClick={ClearForm} className='outline-none max-w-lg px-4 sm:px-6 py-2 sm:py-3 bg-amber-400 text-white font-medium text-base duration-300 hover:opacity-40'>Reset</button>
                 </div>
             </div>
+            <h3 className='text-red-600'>{icon}</h3>
             {(loading) && (<div className='flex-1 grid place-items-center'>
                 <i className="fa-solid fa-spinner animate-spin text-6xl"></i>
             </div>)}

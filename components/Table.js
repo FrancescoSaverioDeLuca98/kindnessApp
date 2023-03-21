@@ -93,6 +93,7 @@ export default function DataTable() {
         onCellClick={handleEvent}
 
       />
+      
     </div>
   );
 }
