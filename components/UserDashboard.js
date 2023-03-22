@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import TodoCard from './TodoCard'
-import { doc, setDoc, deleteField } from 'firebase/firestore'
-import { db } from '../firebase'
-import useFetchTodos from '../hooks/fetchTodos'
 import { useDispatch, useSelector } from "react-redux";
 import { iconAction } from "../redux/store";
 
@@ -30,14 +26,9 @@ export default function UserDashboard() {
         temperanza: 0,
     }
     const { userInfo, currentUser } = useAuth()
-    const [edit, setEdit] = useState(null)
     const [people, setPeople] = useState([])
     const [todo, setTodo] = useState(initialState)
     const [virtu, setVirtu] = useState(initialVirtuState)
-    const [edittedValue, setEdittedValue] = useState('')
-    let peopleToString = ""
-
-    const { todos, setTodos, loading, error } = useFetchTodos()
 
     function SetForm(e) {
         switch (e.id) {
@@ -147,23 +138,12 @@ export default function UserDashboard() {
 
     async function handleAddTodo() {
         if (!todo) { return }
-        //const newKey = todos ? (Object.keys(todos).length === 0 ? 1 : Math.max(...Object.keys(todos))) + 1 : 1
         console.log(virtu)
         let newperson = { ...todo }
         if (todo && todo.length !== 0) {
             setPeople([...people, newperson])
         }
         ClearForm()
-        /*
-        setTodos({ ...todos, [newKey]: todo })
-        const userRef = doc(db, 'users', currentUser.uid)
-        await setDoc(userRef, {
-            'todos': {
-                [newKey]: todo
-            }
-        }, { merge: true })
-        setTodo('')
-        */
     }
 
     function ClearForm() {
@@ -174,45 +154,6 @@ export default function UserDashboard() {
             return
         }
         dispatch(iconAction.iconMoon())
-    }
-
-    async function handleEditTodo() {
-        if (!edittedValue) { return }
-        const newKey = edit
-        setTodos({ ...todos, [newKey]: edittedValue })
-        const userRef = doc(db, 'users', currentUser.uid)
-        await setDoc(userRef, {
-            'todos': {
-                [newKey]: edittedValue
-            }
-        }, { merge: true })
-        setEdit(null)
-        setEdittedValue('')
-    }
-
-    function handleAddEdit(todoKey) {
-        return () => {
-            console.log(todos[todoKey])
-            console.log('bannan')
-            setEdit(todoKey)
-            setEdittedValue(todos[todoKey])
-        }
-    }
-
-    function handleDelete(todoKey) {
-        return async () => {
-            const tempObj = { ...todos }
-            delete tempObj[todoKey]
-
-            setTodos(tempObj)
-            const userRef = doc(db, 'users', currentUser.uid)
-            await setDoc(userRef, {
-                'todos': {
-                    [todoKey]: deleteField()
-                }
-            }, { merge: true })
-
-        }
     }
 
     return (
@@ -339,25 +280,6 @@ export default function UserDashboard() {
                     <button onClick={ClearForm} className='outline-none max-w-lg px-4 sm:px-6 py-2 sm:py-3 bg-amber-400 text-white font-medium text-base duration-300 hover:opacity-40'>Reset</button>
                 </div>
             </div>
-            <h3 className='text-red-600'>{icon}</h3>
-            {(loading) && (<div className='flex-1 grid place-items-center'>
-                <i className="fa-solid fa-spinner animate-spin text-6xl"></i>
-            </div>)}
-            {(
-                <>
-                    {
-                        people &&
-                        Object.keys(people).map((i) => {
-                            peopleToString = Object.values(people[i]).join()
-                            return (
-                                <TodoCard handleEditTodo={handleEditTodo} key={i} handleAddEdit={handleAddEdit} edit={edit} todoKey={todo} edittedValue={edittedValue} setEdittedValue={setEdittedValue} handleDelete={handleDelete}>
-                                    {peopleToString}
-                                </TodoCard>
-                            )
-                        })}
-                </>
-            )}
-            {/* {!addTodo && <button onClick={() => setAddTodo(true)} className='text-cyan-300 border border-solid border-cyan-300 py-2 text-center uppercase text-lg duration-300 hover:opacity-30'>ADD TODO</button>} */}
         </div>
     )
 }
